@@ -1,0 +1,16 @@
+{
+  "name": "CureOnco",
+  "displayName": "CureOnco",
+  "expo": {
+    "android": {
+      "googleServicesFile": "./android/app/google-services.json"
+    },
+    "ios": {
+      "googleServicesFile": "./GoogleService-Info.plist"
+    },
+    "plugins": [
+      "@react-native-firebase/app",
+      "@react-native-google-signin/google-signin"
+    ]
+  }
+}
