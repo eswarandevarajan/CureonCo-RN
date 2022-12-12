@@ -49,15 +49,6 @@ const styles = StyleSheet.create({
     marginTop: scaledHeight(10),
     fontFamily: fonts.semi_bold,
   },
-  webView: {
-    position: 'relative',
-    height: '100%',
-  },
-  linkTxt: {
-    textDecorationLine: 'underline',
-    color: colors.blue,
-    marginTop: scaledHeight(5),
-  },
   listIcon: {
     width: scaledWidth(70),
     height: scaledHeight(70),

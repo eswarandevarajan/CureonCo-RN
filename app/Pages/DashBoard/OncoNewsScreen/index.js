@@ -33,7 +33,7 @@ const OncoNewsScreen = () => {
     setIsFetching(true);
   };
 
-  const renderItem = ({item, index}) => {
+  const renderItem = ({item}) => {
     return (
       <View style={styles.listContainer}>
         <View style={styles.topicView}>
@@ -69,7 +69,7 @@ const OncoNewsScreen = () => {
           data={oncoNewsList}
           style={styles.listStyle}
           renderItem={renderItem}
-          keyExtractor={(item, _id) => _id.toString()}
+          keyExtractor={_id => _id.toString()}
           initialNumToRender={10}
           onRefresh={onRefreshCall}
           refreshing={isFetching}

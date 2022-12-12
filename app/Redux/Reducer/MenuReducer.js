@@ -214,9 +214,7 @@ export default function (state = INITIAL_STATE, action) {
 
 const updateResponse = (response, newResponse) => {
   const index = response.findIndex(feed => feed._id === newResponse._id);
-  console.log('index', index);
   if (index === -1) {
-    console.log('response', response);
     return newResponse;
   }
   response[index] = newResponse;

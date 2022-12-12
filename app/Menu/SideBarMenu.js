@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,12 +11,7 @@ import {colors, fonts} from '../themes/themes';
 import {Dash_Board} from '../Constants/TextConstants';
 import images from '../assets/images';
 import AppUtils from '../utils/AppUtils';
-import {
-  ACCESS_TOKEN,
-  GOOGLE,
-  REFRESH_TOKEN,
-  USER_INFO,
-} from '../Constants/CommonConstants';
+import {USER_INFO} from '../Constants/CommonConstants';
 import ScreenNames from '../Navigation/ScreenNames';
 import NavigationService from '../Navigation/NavigationService';
 // import {Divider} from 'react-native-elements';
@@ -126,8 +121,6 @@ const SideBarMenu = props => {
     if (success) {
       // const userProfiles = await AppUtils.getUserProfile();
       // const registrationType = userProfiles.user.registrationType;
-      await AppUtils.removeItemFromSecuredStorage(ACCESS_TOKEN);
-      await AppUtils.removeItemFromSecuredStorage(REFRESH_TOKEN);
       await AppUtils.removeItemFromSecuredStorage(USER_INFO);
       dispatch(setUserLoggedOut());
       navigation.navigate(ScreenNames.stackNavigation.Login);

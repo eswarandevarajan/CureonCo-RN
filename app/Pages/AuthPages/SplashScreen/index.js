@@ -1,13 +1,11 @@
 import React, {useEffect} from 'react';
 import {
   StyleSheet,
-  Image,
   ImageBackground,
-  View,
   SafeAreaView,
   Dimensions,
 } from 'react-native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import images from '../../../assets/images';
 import appStyles from '../../../assets/Styles/AppStyles';
 import NavigationService from '../../../Navigation/NavigationService';
@@ -18,20 +16,18 @@ import {
   GET_HASHTAGS,
   GET_STAGE,
 } from '../../../Service/AuthService';
-import {
-  convertToDeviceResolution,
-  scaledHeight,
-  scaledWidth,
-} from '../../../utils/Resolution';
+import {colors} from '../../../themes/themes';
 import AppUtils from '../../../utils/AppUtils';
+import {UIActivityIndicator} from 'react-native-indicators';
+
 const {width, height} = Dimensions.get('window');
+
 const SplashScreen = () => {
   const dispatch = useDispatch();
 
+  const isLoading = useSelector(state => state.AuthReducer.isLoading || false);
+
   useEffect(() => {
-    // setTimeout(() => {
-    //   NavigationService.navigate(ScreenNames.stackNavigation.OnBoard);
-    // }, 1000);
     (async () => {
       await Promise.all([
         dispatch(GET_COUNTRY()),
@@ -55,16 +51,26 @@ const SplashScreen = () => {
 
   return (
     <SafeAreaView style={appStyles.appContainer}>
-      <ImageBackground source={images.splash} style={styles.content} />
+      <ImageBackground source={images.splash} style={styles.content}>
+        {isLoading ? (
+          <UIActivityIndicator
+            color={colors.white}
+            size={40}
+            style={styles.loader}
+          />
+        ) : null}
+      </ImageBackground>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   content: {
-    // flex: 1,
     width: width,
     height: height,
+  },
+  loader: {
+    marginTop: height / 2,
   },
 });
 

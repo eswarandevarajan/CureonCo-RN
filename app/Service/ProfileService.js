@@ -155,7 +155,6 @@ export const GET_FOLDER_NAMES = () => async dispatch => {
     .then(response => {
       dispatch(hideLoader());
       if (response.code === 200) {
-        console.log(response.data);
         dispatch(setFolderNames(response.data));
       } else {
         ToastMessage.error(response.message);

@@ -5,7 +5,7 @@ import {fonts} from '../themes/themes';
 import {scaledHeight, scaledWidth} from '../utils/Resolution';
 
 export const CureOncoAvatar = props => {
-  const {user, size, styles, avatarConatiner} = props;
+  const {user, size, styles} = props;
   return (
     <View style={styles}>
       {user?.avatar !== undefined ? (

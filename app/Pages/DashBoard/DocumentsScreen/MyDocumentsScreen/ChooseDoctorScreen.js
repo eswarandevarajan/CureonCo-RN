@@ -1,91 +1,37 @@
-import React, {useState, useRef} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   TouchableOpacity,
   Text,
   SafeAreaView,
-  Animated,
   ImageBackground,
-  Modal,
   TextInput,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {Icon} from '../../../../Components';
-import NavigationService from '../../../../Navigation/NavigationService';
 import appStyles from '../../../../assets/Styles/AppStyles';
-import ScreenNames from '../../../../Navigation/ScreenNames';
-import {FOLLOWERS, FOLLOWING} from '../../../../Constants/CommonConstants';
-import PagerView from 'react-native-pager-view';
 import styles from './Styles';
 import images from '../../../../assets/images';
 import {BackHeaderComponent} from '../../../../Components/HeaderComponent';
 import {
   CureOncoFlatList,
-  CureOncoImage,
   CureOncoListSeparator,
 } from '../../../../Components/CureOncoAtoms';
-import {colors} from '../../../../themes/themes';
 import {useEffect} from 'react';
-import {
-  GET_DOCTORS,
-  GET_FOLDER_NAMES,
-  GET_USER_FILES,
-  SHARE_FILES,
-  UPLOAD_FILES,
-} from '../../../../Service/ProfileService';
-import QRCodeScreen from '../QRCodeScreen';
-import Images from '../../../../assets/images';
-import FABComponent from '../../../../Components/FABComponent';
-import PopUpModalComponent from '../../../../Components/PopUpModalComponent';
-import CheckBox from '@react-native-community/checkbox';
-import ImagePickerComponent from '../../../../Components/ImagePickerComponent';
-import {CAMERA, DOCUMENT} from '../../../../Config/config';
-import {DOCUMENTS} from '../../../../Config/API_URL';
-import ModalComponent from '../../../../Components/ModalComponent';
-import {scaledHeight} from '../../../../utils/Resolution';
-
-const doctors = [
-  {
-    name: 'Dr. Chaiya Mariy',
-    type: 'Oncologist',
-    date: '04 April 2022',
-    day: 'Monday',
-  },
-  {
-    name: 'Dr. Chaiya Mariy',
-    type: 'Oncologist',
-    date: '04 April 2022',
-    day: 'Monday',
-  },
-  {
-    name: 'Dr. Chaiya Mariy',
-    type: 'Oncologist',
-    date: '04 April 2022',
-    day: 'Monday',
-  },
-  {
-    name: 'Dr. Chaiya Mariy',
-    type: 'Oncologist',
-    date: '04 April 2022',
-    day: 'Monday',
-  },
-];
+import {GET_DOCTORS, SHARE_FILES} from '../../../../Service/ProfileService';
 
 const ChooseDoctorScreen = props => {
   const {ShowChooseDoctor, isChecked} = props;
   const dispatch = useDispatch();
-  const [search, setSearch] = useState('');
-  //   const ref = useRef(PagerView);
-  // const folderNames = useSelector(state => state.ProfileReducer?.folderNames);
   const doctors = useSelector(state => state.ProfileReducer?.doctors);
 
-  console.log(isChecked);
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     dispatch(GET_DOCTORS());
   }, [dispatch]);
 
-  const renderDoctors = ({item, index}) => {
+  const renderDoctors = ({item}) => {
     const {user = {}, specialization = []} = item ?? {};
     return (
       <TouchableOpacity
@@ -156,7 +102,7 @@ const ChooseDoctorScreen = props => {
             data={doctors}
             renderItem={renderDoctors}
             keyExtractor={(item, idx) => item?._id?.toString()}
-            style={[styles.fileVerticalList, {marginTop: 10}]}
+            style={[styles.fileVerticalList, styles.doctorsList]}
             ItemSeparatorComponent={<CureOncoListSeparator />}
           />
         </View>

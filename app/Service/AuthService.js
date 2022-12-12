@@ -9,44 +9,33 @@ import {
   setHashTagSuccess,
 } from '../Redux/Actions/AuthAction';
 import _ from 'lodash';
-// import ToastMessage from '../Components/ToastMessage';
 import {GETPORFILEBYID} from './ProfileService';
 import {hideLoader, showLoader} from '../Redux/Actions/LoaderAction';
-import AppUtils from '../utils/AppUtils';
-import {
-  setAPIError,
-  setErrorCode,
-  setErrorMessage,
-} from '../Redux/Actions/ErrorAction';
+import {setErrorMessage} from '../Redux/Actions/ErrorAction';
 
 //Splash page
 export const GET_COUNTRY = () => async dispatch => {
   dispatch(setAuthLoader(true));
-  await CommonService.GETMETHOD(COMMON_URL.GETCOUNTRYLIST)
+  await CommonService.GETMETHOD(COMMON_URL.GETCOUNTRYLIST, dispatch)
     .then(response => {
-      if (response.code == 200) {
+      if (response.code === 200) {
         let sort_data = _.sortBy(response.data, ({name}) => name.toLowerCase());
         dispatch(setCountrySuccess(sort_data));
-      } else if (response.status >= 400) {
-        dispatch(setAuthLoader(false));
-        dispatch(setAPIError('defaultErrorMessage'));
-        dispatch(setErrorCode(429));
       } else {
         dispatch(setAuthLoader(false));
-        // ToastMessage.error(response.message);
+        dispatch(setErrorMessage(response.message, true));
       }
     })
-    .catch(error => {
+    .catch(() => {
       dispatch(setAuthLoader(false));
-      dispatch(setAPIError('authPagesError'));
     });
 };
 
 export const GET_DIAGNOSISMUTATION = () => async dispatch => {
-  await CommonService.GETMETHOD(COMMON_URL.GETDIAGNOSISMUTATION)
+  await CommonService.GETMETHOD(COMMON_URL.GETDIAGNOSISMUTATION, dispatch)
     .then(response => {
       dispatch(setAuthLoader(false));
-      if (response.code == 200) {
+      if (response.code === 200) {
         const data = [];
         response.data.map(item => {
           if (item.title === 'Others') {
@@ -58,48 +47,37 @@ export const GET_DIAGNOSISMUTATION = () => async dispatch => {
           }
         });
         dispatch(setDiagnosisMutationSuccess(data));
-      } else if (response.status >= 400) {
-        dispatch(setAuthLoader(false));
-        dispatch(setAPIError('defaultErrorMessage'));
-        dispatch(setErrorCode(429));
       } else {
-        // ToastMessage.error(response.message);
+        dispatch(setAuthLoader(false));
+        dispatch(setErrorMessage(response.message, true));
       }
     })
     .catch(error => {
       dispatch(setAuthLoader(false));
-      dispatch(setAPIError('authPagesError'));
     });
 };
 
 export const SAVE_NEW_MUTATION = val => async dispatch => {
-  dispatch(setAuthLoader(true));
-  await CommonService.POSTMETHOD(COMMON_URL.GETDIAGNOSISMUTATION, val)
+  dispatch(showLoader());
+  await CommonService.POSTMETHOD(COMMON_URL.GETDIAGNOSISMUTATION, val, dispatch)
     .then(response => {
-      // if (response.code == 200) {
-      //     dispatch(setDiagnosisMutationSuccess(response.data));
-      // } else {
-      //     ToastMessage.error(response.message);
-      // }
-      if (response.code == 200) {
-        dispatch(setAuthLoader(false));
-      } else if (response.status >= 400) {
-        dispatch(setAuthLoader(false));
-        dispatch(setAPIError('defaultErrorMessage'));
-        dispatch(setErrorCode(429));
+      if (response.code === 200) {
+        dispatch(hideLoader());
+      } else {
+        dispatch(hideLoader());
+        dispatch(setErrorMessage(response.message, true));
       }
     })
-    .catch(error => {
-      dispatch(setAuthLoader(false));
-      dispatch(setAPIError('authPagesError'));
+    .catch(() => {
+      dispatch(hideLoader());
     });
 };
 
 export const GET_STAGE = () => async dispatch => {
-  await CommonService.GETMETHOD(COMMON_URL.GETSTAGE)
+  await CommonService.GETMETHOD(COMMON_URL.GETSTAGE, dispatch)
     .then(response => {
       dispatch(setAuthLoader(false));
-      if (response.code == 200) {
+      if (response.code === 200) {
         let sort_data = {};
         let sort_data_cancertype = [];
         let sort_data_diagnosisMutations = [];
@@ -156,61 +134,36 @@ export const GET_STAGE = () => async dispatch => {
         sort_data.diagnosisMutations = sort_data_diagnosisMutations;
         sort_data.diagnosisStages = sort_data_diagnosisStages;
         dispatch(setStageSuccess(sort_data));
-      } else if (response.status >= 400) {
-        dispatch(setAuthLoader(false));
-        dispatch(setAPIError('defaultErrorMessage'));
-        dispatch(setErrorCode(429));
       } else {
-        // ToastMessage.error(response.message);
+        dispatch(setAuthLoader(false));
+        dispatch(setErrorMessage(response.message, true));
       }
     })
-    .catch(error => {
+    .catch(() => {
       dispatch(setAuthLoader(false));
-      dispatch(setAPIError('authPagesError'));
     });
 };
 
 export const GET_HASHTAGS = () => async dispatch => {
-  await CommonService.GETMETHOD(COMMON_URL.GETHASHTAGS)
+  await CommonService.GETMETHOD(COMMON_URL.GETHASHTAGS, dispatch)
     .then(response => {
-      if (response.code == 200) {
+      if (response.code === 200) {
         dispatch(setAuthLoader(false));
         dispatch(setHashTagSuccess(response.data));
-      } else if (response.status >= 400) {
+      } else {
         dispatch(setAuthLoader(false));
-        dispatch(setAPIError('defaultErrorMessage'));
-        dispatch(setErrorCode(429));
+        dispatch(setErrorMessage(response.message, true));
       }
     })
-    .catch(error => {
+    .catch(() => {
       dispatch(setAuthLoader(false));
-      dispatch(setAPIError('authPagesError'));
     });
 };
 
-//Login page
-// export const SOCIAL_LOGIN = val => async dispatch => {
-//   dispatch(showLoader());
-//   await CommonService.POSTMETHOD(AUTH_URL.LOGIN, val)
-//     .then(response => {
-//       if (response.code === 200) {
-//         dispatch(GETPORFILEBYID(response.data.user.id));
-//       } else {
-//         dispatch(hideLoader());
-//         dispatch(setErrorMessage(response.message, true));
-//       }
-//     })
-//     .catch(error => {
-//       dispatch(hideLoader());
-//       dispatch(setAPIError('authPagesError'));
-//     });
-// };
-
 export const LOGIN = val => async dispatch => {
   dispatch(showLoader());
-  await CommonService.POSTMETHOD(AUTH_URL.LOGIN, val)
+  await CommonService.POSTMETHOD(AUTH_URL.LOGIN, val, dispatch)
     .then(response => {
-      console.log(response);
       if (response.code === 200) {
         dispatch(GETPORFILEBYID(response.data.user.id));
       } else {
@@ -220,31 +173,28 @@ export const LOGIN = val => async dispatch => {
     })
     .catch(() => {
       dispatch(hideLoader());
-      dispatch(setAPIError('authPagesError'));
     });
 };
 
 //OTP Page
 export const VERIFY_ACCESSCODE = val => async dispatch => {
   dispatch(showLoader());
-  const success = await CommonService.POSTMETHOD(AUTH_URL.RESETPASSWORD, val)
+  const success = await CommonService.POSTMETHOD(
+    AUTH_URL.RESETPASSWORD,
+    val,
+    dispatch,
+  )
     .then(response => {
       dispatch(hideLoader());
       if (response.code === 200) {
-        // ToastMessage.success(
-        //   'Congratulations! You have Successfully changed your password',
-        // );
         return true;
-      } else if (response.status >= 400) {
-        dispatch(setAPIError('defaultErrorMessage'));
-        dispatch(setErrorCode(429));
       } else {
-        // ToastMessage.error(response.message);
+        dispatch(hideLoader());
+        dispatch(setErrorMessage(response.message, true));
       }
     })
     .catch(() => {
       dispatch(hideLoader());
-      dispatch(setAPIError('authPagesError'));
     });
   return success;
 };
@@ -252,7 +202,11 @@ export const VERIFY_ACCESSCODE = val => async dispatch => {
 //Forget Password Page
 export const FORGETPASSWORD = value => async dispatch => {
   dispatch(showLoader());
-  const success = await CommonService.POSTMETHOD(AUTH_URL.GENERATEOTP, value)
+  const success = await CommonService.POSTMETHOD(
+    AUTH_URL.GENERATEOTP,
+    value,
+    dispatch,
+  )
     .then(response => {
       dispatch(hideLoader());
       if (response.code === 200) {
@@ -260,16 +214,13 @@ export const FORGETPASSWORD = value => async dispatch => {
         resetPassword.email = value.email;
         dispatch(setForgetPassSuccess(resetPassword));
         return true;
-      } else if (response.status >= 400) {
-        dispatch(setAPIError('defaultErrorMessage'));
-        dispatch(setErrorCode(429));
       } else {
-        // ToastMessage.error(response.message);
+        dispatch(hideLoader());
+        dispatch(setErrorMessage(response.message, true));
       }
     })
     .catch(() => {
       dispatch(hideLoader());
-      dispatch(setAPIError('authPagesError'));
     });
   return success;
 };
@@ -277,22 +228,22 @@ export const FORGETPASSWORD = value => async dispatch => {
 //Signup Page
 export const SIGNUP = value => async dispatch => {
   dispatch(showLoader());
-  const success = await CommonService.POSTMETHOD(AUTH_URL.REGISTER, value)
+  const success = await CommonService.POSTMETHOD(
+    AUTH_URL.REGISTER,
+    value,
+    dispatch,
+  )
     .then(response => {
       dispatch(hideLoader());
       if (response.code === 201) {
-        // ToastMessage.info(response.message);
         return true;
-      } else if (response.status >= 400) {
-        dispatch(setAPIError('defaultErrorMessage'));
-        dispatch(setErrorCode(429));
       } else {
-        // ToastMessage.error(response.message);
+        dispatch(hideLoader());
+        dispatch(setErrorMessage(response.message, true));
       }
     })
     .catch(() => {
       dispatch(hideLoader());
-      dispatch(setAPIError('authPagesError'));
     });
 
   return success;
@@ -301,41 +252,36 @@ export const SIGNUP = value => async dispatch => {
 //Bank Details
 export const BANK_DETAILS = value => async dispatch => {
   dispatch(showLoader());
-  await CommonService.POSTMETHOD(AUTH_URL.BANKDETAILS, value)
+  await CommonService.POSTMETHOD(AUTH_URL.BANKDETAILS, value, dispatch)
     .then(response => {
       dispatch(hideLoader());
-      if (response.code == 201) {
+      if (response.code === 201) {
         // ToastMessage.info(response.message);
-      } else if (response.status >= 400) {
-        dispatch(setAPIError('defaultErrorMessage'));
-        dispatch(setErrorCode(429));
       } else {
-        // ToastMessage.error(response.message);
+        dispatch(hideLoader());
+        dispatch(setErrorMessage(response.message, true));
       }
     })
-    .catch(err => {
+    .catch(() => {
       dispatch(hideLoader());
-      dispatch(setAPIError('defaultErrorMessage'));
     });
 };
 
 //LogOut
 export const AUTH_LOGOUT = () => async dispatch => {
   dispatch(showLoader());
-  const success = await CommonService.GETMETHOD(AUTH_URL.LOGOUT)
+  const success = await CommonService.GETMETHOD(AUTH_URL.LOGOUT, dispatch)
     .then(response => {
       dispatch(hideLoader());
       if (response.code === 201) {
         return true;
-      } else if (response.status >= 400) {
-        dispatch(setAPIError('defaultErrorMessage'));
-        dispatch(setErrorCode(429));
       } else {
+        dispatch(hideLoader());
+        dispatch(setErrorMessage(response.message, true));
       }
     })
     .catch(() => {
       dispatch(hideLoader());
-      dispatch(setAPIError('authPagesError'));
     });
   return success;
 };

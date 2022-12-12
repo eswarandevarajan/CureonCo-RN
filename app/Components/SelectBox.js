@@ -10,17 +10,12 @@ import {
   Image,
 } from 'react-native';
 import {colors, fonts} from '../themes/themes';
-import {
-  convertToDeviceResolution,
-  scaledHeight,
-  scaledWidth,
-} from '../utils/Resolution';
+import {scaledHeight, scaledWidth} from '../utils/Resolution';
 import Icon from './Icon';
 import Modal from 'react-native-modal';
 import {useState} from 'react';
-import {CureOncoFlatList, CureOncoListSeparator} from './CureOncoAtoms';
+import {CureOncoFlatList} from './CureOncoAtoms';
 import appStyles from '../assets/Styles/AppStyles';
-import CheckBox from '@react-native-community/checkbox';
 import {Select_Box} from '../Constants/TextConstants';
 import Input from './Input';
 import Button from './Button';
@@ -206,7 +201,6 @@ const SelectBox = props => {
           <TouchableOpacity
             style={styles.itemTouch}
             onPress={() => {
-              console.log(item);
               setSelectedState(item.name);
               setShow(false);
               onSelectedState(item.id);

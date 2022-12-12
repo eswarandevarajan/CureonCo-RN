@@ -1,9 +1,8 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {
   StyleSheet,
   Text,
   Image,
-  ImageBackground,
   View,
   Dimensions,
   SafeAreaView,
@@ -12,15 +11,13 @@ import {
 import images from '../../../assets/images';
 import NavigationService from '../../../Navigation/NavigationService';
 import ScreenNames from '../../../Navigation/ScreenNames';
-import {
-  convertToDeviceResolution,
-  scaledHeight,
-  scaledWidth,
-} from '../../../utils/Resolution';
+import {scaledHeight, scaledWidth} from '../../../utils/Resolution';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import appStyles from '../../../assets/Styles/AppStyles';
 import {fonts} from '../../../themes/themes';
+
 const {width} = Dimensions.get('window');
+
 const data = [
   {
     source: images.onboardOne,
@@ -41,7 +38,7 @@ const OnBoardScreen = () => {
 
   const isCarousel = useRef(null);
 
-  const CarouselCardItem = ({item, index}) => {
+  const CarouselCardItem = ({item}) => {
     return (
       <View style={styles.CarouselCardView}>
         <Image source={item.source} style={styles.homeImage} />
@@ -74,10 +71,10 @@ const OnBoardScreen = () => {
         autoplayDelay={100}
         autoplayInterval={3000}
         loop={true}
-        containerCustomStyle={{flex: 1}}
-        slideStyle={{flex: 1}}
+        containerCustomStyle={styles.CarouselContainer}
+        slideStyle={styles.CarouselSlider}
         loopClonesPerSide={data.length}
-        onSnapToItem={index => setIndex(index)}
+        onSnapToItem={indx => setIndex(indx)}
         scrollEnabled={true}
       />
       <Pagination
@@ -99,7 +96,6 @@ const styles = StyleSheet.create({
   homeImage: {
     width: width,
     marginLeft: scaledWidth(15),
-    // height: scaledHeight(250),
   },
   skipTxt: {
     textAlign: 'right',
@@ -122,6 +118,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#004E8B',
     fontFamily: fonts.medium,
+  },
+  CarouselContainer: {
+    flex: 1,
+  },
+  CarouselSlider: {
+    flex: 1,
   },
 });
 

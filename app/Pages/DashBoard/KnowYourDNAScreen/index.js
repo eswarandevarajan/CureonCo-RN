@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {
   Text,
   SafeAreaView,
@@ -8,21 +8,14 @@ import {
   TextInput,
   ImageBackground,
 } from 'react-native';
-import {Header, Icon, WebviewComponent} from '../../../Components';
-import {colors, fonts} from '../../../themes/themes';
-import {Dash_Board} from '../../../Constants/TextConstants';
-import {connect, useDispatch, useSelector} from 'react-redux';
+import {Icon} from '../../../Components';
+import {useDispatch, useSelector} from 'react-redux';
 import {GET_KNOWYOURDNA} from '../../../Service/MenuService';
 import styles from './Styles';
-import ScreenNames from '../../../Navigation/ScreenNames';
 import NavigationService from '../../../Navigation/NavigationService';
 import images from '../../../assets/images';
 import appStyles from '../../../assets/Styles/AppStyles';
-import {scaledHeight, scaledWidth} from '../../../utils/Resolution';
-import {
-  CureOncoFlatList,
-  CureOncoImage,
-} from '../../../Components/CureOncoAtoms';
+import {CureOncoFlatList} from '../../../Components/CureOncoAtoms';
 import {useState} from 'react';
 import {useEffect} from 'react';
 import {BackHeaderComponent} from '../../../Components/HeaderComponent';

@@ -4,6 +4,7 @@ import {useSelector} from 'react-redux';
 import {colors} from '../themes/themes';
 import {UIActivityIndicator} from 'react-native-indicators';
 import {scaledHeight, scaledWidth} from '../utils/Resolution';
+
 const {height, width} = Dimensions.get('screen');
 
 const CureonCoActitivtyIndicator = () => {

@@ -43,44 +43,7 @@ import ModalComponent from '../../../../Components/ModalComponent';
 import {scaledHeight} from '../../../../utils/Resolution';
 import ChooseDoctorScreen from './ChooseDoctorScreen';
 import {convertCaptilize} from '../../../../utils/Utils';
-
-const fileNames = [
-  {
-    category: {
-      _id: '62611b772909780704d3cc23',
-    },
-    _id: '62611b772909780704d3cd23',
-    fileName: 'Surgen Note',
-  },
-  {
-    category: {
-      _id: '62611b772909780704d3cc23',
-    },
-    _id: '62611b772909780704d3md23',
-    fileName: 'Surgen Note',
-  },
-  {
-    category: {
-      _id: '62611b772909780704d3cc23',
-    },
-    _id: '62611b772909780704d3vd23',
-    fileName: 'Surgen Note',
-  },
-  {
-    category: {
-      _id: '62611b772909780704d3cc23',
-    },
-    _id: '62611b772909780704d3rd23',
-    fileName: 'Surgen Note',
-  },
-  {
-    category: {
-      _id: '62611b772909780704d3cc23',
-    },
-    _id: '62611b772909780704d3wd23',
-    fileName: 'Surgen Note',
-  },
-];
+import { listChange } from './DocumentsUtils';
 
 const FolderDocumentsScreen = props => {
   const {params} = props.route;
@@ -131,37 +94,41 @@ const FolderDocumentsScreen = props => {
 
   console.log('userFilesList', userFilesList);
 
-  const listChange = () => {
-    return (
-      <View style={styles.changeTopView}>
-        <View style={styles.changeLeftView}>
-          <Text style={styles.changeNameTxt}>Name</Text>
-          <Icon
-            name={'arrowup'}
-            type={'AntDesign'}
-            color={'#2B354E'}
-            size={20}
-          />
-        </View>
-        <TouchableOpacity onPress={() => setChangeVertical(!changeVertical)}>
-          {changeVertical ? (
-            <Icon
-              name={'view-module'}
-              type={'MaterialCommunityIcons'}
-              color={'#737B7D'}
-              size={30}
-            />
-          ) : (
-            <Icon
-              name={'nav-icon-list-a'}
-              type={'Fontisto'}
-              color={'#737B7D'}
-              size={20}
-            />
-          )}
-        </TouchableOpacity>
-      </View>
-    );
+  // const listChange = () => {
+  //   return (
+  //     <View style={styles.changeTopView}>
+  //       <View style={styles.changeLeftView}>
+  //         <Text style={styles.changeNameTxt}>Name</Text>
+  //         <Icon
+  //           name={'arrowup'}
+  //           type={'AntDesign'}
+  //           color={'#2B354E'}
+  //           size={20}
+  //         />
+  //       </View>
+  //       <TouchableOpacity onPress={() => setChangeVertical(!changeVertical)}>
+  //         {changeVertical ? (
+  //           <Icon
+  //             name={'view-module'}
+  //             type={'MaterialCommunityIcons'}
+  //             color={'#737B7D'}
+  //             size={30}
+  //           />
+  //         ) : (
+  //           <Icon
+  //             name={'nav-icon-list-a'}
+  //             type={'Fontisto'}
+  //             color={'#737B7D'}
+  //             size={20}
+  //           />
+  //         )}
+  //       </TouchableOpacity>
+  //     </View>
+  //   );
+  // };
+
+  const onPress = () => {
+    setChangeVertical(!changeVertical);
   };
 
   const selectHeader = () => {
@@ -295,7 +262,7 @@ const FolderDocumentsScreen = props => {
               <CheckBox
                 value={isChecked.includes(item._id)}
                 onValueChange={() => onCheckChange(item)}
-                style={styles.checkBox}
+                style={styles.verticalCheckBox}
                 tintColors={{false: colors.black, true: '#004E8B'}}
                 boxType={'circle'}
               />
@@ -317,7 +284,7 @@ const FolderDocumentsScreen = props => {
                 type={'AntDesign'}
                 color={'#737B7D'}
                 size={25}
-                style={styles.itemShareIcon}
+                style={styles.itemVerticalShare}
               />
             </TouchableOpacity>
           </TouchableOpacity>
@@ -325,7 +292,7 @@ const FolderDocumentsScreen = props => {
       }
       return (
         <TouchableOpacity
-          style={styles.fileIcon}
+          style={styles.fileHorizontalIcon}
           onPress={() => onCheckChange(item)}>
           <CureOncoImage
             style={styles.sampleImage}
@@ -335,21 +302,21 @@ const FolderDocumentsScreen = props => {
             <CheckBox
               value={isChecked.includes(item._id)}
               onValueChange={() => onCheckChange(item)}
-              style={styles.verticalCheckBox}
+              style={styles.horizontalCheckBox}
               tintColors={{false: colors.black, true: '#004E8B'}}
               boxType={'circle'}
             />
           )}
           {/* {listIcon(item?.fileType)} */}
-          <View style={styles.bottomView}>
+          <View style={styles.horizontalBottomView}>
             <Icon
               name={'file-pdf-box'}
               type={'MaterialCommunityIcons'}
               size={25}
               color={'#DD2025'}
-              style={styles.itemIcon}
+              style={styles.itemHorizontalIcon}
             />
-            <Text style={styles.fileText} numberOfLines={1}>
+            <Text style={styles.fileHorizontalText} numberOfLines={1}>
               {convertCaptilize(item.fileName)}
             </Text>
             <TouchableOpacity
@@ -362,7 +329,7 @@ const FolderDocumentsScreen = props => {
                 type={'MaterialCommunityIcons'}
                 color={'#737B7D'}
                 size={25}
-                style={styles.verticalShareIcon}
+                style={styles.horizontalShareIcon}
               />
             </TouchableOpacity>
           </View>
@@ -391,20 +358,6 @@ const FolderDocumentsScreen = props => {
     });
   };
 
-  const onSuccess = async e => {
-    setIsQRCode(false);
-    // const accessToken = await AppUtils.getAccessTokenFromSecuredStorage();
-    // const data = JSON.parse(e.data);
-    // const loginData = {
-    //   accessToken: accessToken,
-    //   secret: data.uniqueId,
-    //   socketId: data.socketid,
-    // };
-    // await this.props.qrCodeLogin(loginData);
-  };
-
-  console.log(changeVertical);
-
   return (
     <SafeAreaView>
       <ImageBackground
@@ -419,7 +372,7 @@ const FolderDocumentsScreen = props => {
             onChangeText={text => setSearch(text)}
           />
         </View>
-        {listChange()}
+        {listChange(changeVertical, onPress)}
         <View>
           <CureOncoFlatList
             key={changeVertical ? '@' : '*'}
@@ -427,7 +380,11 @@ const FolderDocumentsScreen = props => {
             numColumns={changeVertical ? 1 : 2}
             renderItem={renderFiles}
             keyExtractor={item => item._id.toString()}
-            style={changeVertical ? styles.fileVerticalList : styles.fileList}
+            style={
+              changeVertical
+                ? styles.fileVerticalList
+                : styles.fileHorizontalList
+            }
             ItemSeparatorComponent={changeVertical && <CureOncoListSeparator />}
             ListEmptyComponent={<CureOncoEmptyComponent text={'No Files'} />}
           />
@@ -444,7 +401,7 @@ const FolderDocumentsScreen = props => {
           showPopUpModal={showPopUpModal}>
           <View>
             <View style={styles.modalView}>
-              <Text style={styles.fileUploadTxt}>File Upload</Text>
+              <Text style={styles.modalUploadTxt}>File Upload</Text>
               <TouchableOpacity onPress={() => setShowFileUploadOption(false)}>
                 <Icon
                   name={'close'}
@@ -494,16 +451,6 @@ const FolderDocumentsScreen = props => {
             </View>
           </View>
         </PopUpModalComponent>
-        {/* {isQRCode && (
-        <View style={styles.QRCode}>
-          <QRCodeScanner
-            onRead={onSuccess}
-            reactivate={true}
-            showMarker={true}
-            topContent={<Text style={styles.topContentTxt}>Scan QR Code</Text>}
-          />
-        </View>
-      )} */}
         <ModalComponent
           renderModal={
             <ChooseDoctorScreen

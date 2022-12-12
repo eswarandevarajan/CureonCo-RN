@@ -1,10 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   Text,
   TouchableOpacity,
   SafeAreaView,
-  ScrollView,
   ImageBackground,
 } from 'react-native';
 import {Icon, TimeFormat} from '../../../Components';
@@ -14,7 +13,6 @@ import images from '../../../assets/images';
 import ScreenNames from '../../../Navigation/ScreenNames';
 import NavigationService from '../../../Navigation/NavigationService';
 import appStyles from '../../../assets/Styles/AppStyles';
-import {scaledHeight} from '../../../utils/Resolution';
 import {
   CureOncoAvatar,
   CureOncoFlatList,
@@ -22,33 +20,7 @@ import {
   CureOncoListSeparator,
 } from '../../../Components/CureOncoAtoms';
 import {GET_JOURNALS, GET_ONCONEWS} from '../../../Service/MenuService';
-
-const data = [
-  {
-    title: 'Lorem ipsum dolor sit amet, consectetur',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit,SeeMore',
-    date: '12 Nov 2022',
-  },
-  {
-    title: 'Lorem ipsum dolor sit amet, consectetur',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit,SeeMore',
-    date: '12 Nov 2022',
-  },
-  {
-    title: 'Lorem ipsum dolor sit amet, consectetur',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit,SeeMore',
-    date: '12 Nov 2022',
-  },
-  {
-    title: 'Lorem ipsum dolor sit amet, consectetur',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit,SeeMore',
-    date: '12 Nov 2022',
-  },
-];
+import {MenuHeaderComponent} from '../../../Components/HeaderComponent';
 
 let listColors = ['#FFEFEE', '#FFF3E6', '#E6EEF4'];
 
@@ -311,27 +283,11 @@ const HomeMenuScreen = props => {
       <ImageBackground
         source={images.backGround}
         style={appStyles.appImageContainer}>
-        <View style={styles.topView}>
-          <TouchableOpacity
-            style={styles.menuTouch}
-            onPress={() => navigation.openDrawer()}>
-            <Icon
-              name={'graph-horizontal'}
-              type={'Foundation'}
-              size={25}
-              color={'#0F0F0F'}
-            />
-          </TouchableOpacity>
-          <Text style={styles.dashTxt}>My Dashboard</Text>
-          <TouchableOpacity style={styles.bellTouch}>
-            <Icon
-              name={'bell-o'}
-              type={'FontAwesome'}
-              size={25}
-              color={'#0F0F0F'}
-            />
-          </TouchableOpacity>
-        </View>
+        <MenuHeaderComponent
+          menuOnPress={() => navigation.openDrawer()}
+          title={'My Dashboard'}
+          bellOnPress={() => navigation.openDrawer()}
+        />
         <View style={styles.profileView}>
           <CureOncoAvatar
             user={user}

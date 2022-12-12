@@ -10,31 +10,6 @@ import {
 const {width, height} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-  topView: {
-    flexDirection: 'row',
-    marginTop: scaledHeight(10),
-    marginLeft: scaledWidth(15),
-  },
-  menuTouch: {
-    flex: 1,
-    alignItems: 'flex-start',
-    paddingBottom: scaledHeight(5),
-    paddingTop: scaledHeight(5),
-  },
-  bellTouch: {
-    flex: 1,
-    alignItems: 'flex-end',
-    paddingRight: scaledWidth(10),
-    paddingBottom: scaledHeight(5),
-    paddingTop: scaledHeight(5),
-  },
-  dashTxt: {
-    textAlign: 'center',
-    alignSelf: 'center',
-    fontFamily: fonts.regular,
-    fontSize: 18,
-    color: '#2B354E',
-  },
   profileView: {
     marginLeft: scaledWidth(15),
     flexDirection: 'row',
@@ -52,51 +27,6 @@ const styles = StyleSheet.create({
     marginLeft: scaledWidth(8),
     color: '#0F0F0F',
     fontFamily: fonts.regular,
-  },
-  side_menuView: {
-    flexDirection: 'row',
-    paddingLeft: scaledWidth(20),
-    paddingTop: scaledHeight(15),
-    paddingBottom: scaledHeight(15),
-  },
-  iconStyle: {
-    flex: 0.2,
-  },
-  imageView: {
-    flex: 0.15,
-    marginRight: scaledWidth(10),
-  },
-  imageStyle: {
-    width: convertToDeviceResolution(8),
-    height: convertToDeviceResolution(8),
-  },
-  signOutTxt: {
-    fontSize: 16,
-    marginLeft: scaledWidth(15),
-    color: colors.black,
-    fontFamily: fonts.semi_bold,
-  },
-  iconTouch: {
-    alignItems: 'flex-end',
-    paddingLeft: scaledWidth(10),
-    paddingRight: scaledWidth(10),
-    paddingTop: scaledHeight(10),
-    paddingBottom: scaledHeight(10),
-  },
-  itemSeparator: {
-    borderWidth: 0.2,
-    opacity: 0.2,
-    marginLeft: scaledWidth(20),
-    marginRight: scaledWidth(25),
-  },
-  scrollTopView: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    marginTop: scaledHeight(140),
-    height: height / 1.34,
   },
   trackTopView: {
     borderRadius: 10,

@@ -7,23 +7,13 @@ import {
   StyleSheet,
   Dimensions,
 } from 'react-native';
-import {
-  Choose_Login_Screen,
-  ErrorTxts,
-  Login_Screen,
-} from '../../../Constants/TextConstants';
+import {ErrorTxts} from '../../../Constants/TextConstants';
 import appStyles from '../../../assets/Styles/AppStyles';
 import {Button, Icon, Input} from '../../../Components';
 import ScreenNames from '../../../Navigation/ScreenNames';
 import NavigationService from '../../../Navigation/NavigationService';
-import {colors, fonts} from '../../../themes/themes';
-import {
-  convertToDeviceResolution,
-  scaledHeight,
-  scaledWidth,
-} from '../../../utils/Resolution';
-import images from '../../../assets/images';
-import {CureOncoImage} from '../../../Components/CureOncoAtoms';
+import {fonts} from '../../../themes/themes';
+import {scaledHeight, scaledWidth} from '../../../utils/Resolution';
 import AuthHeaderComponent from '../Component/AuthHeaderComponent';
 import {useDispatch} from 'react-redux';
 import {useState} from 'react';

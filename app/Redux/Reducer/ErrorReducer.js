@@ -2,8 +2,10 @@ import {API_ERROR, ERROR_MESSAGE} from '../../Constants/ActionConstants';
 
 const INITIAL_STATE = {
   errors: {errorMessage: '', showError: false},
-  errorReponse: undefined,
+  APIErrorReponse: undefined,
 };
+
+
 
 export default function (state = INITIAL_STATE, action) {
   const {type, payload} = action;
@@ -12,7 +14,7 @@ export default function (state = INITIAL_STATE, action) {
     case API_ERROR:
       return {
         ...state,
-        errorReponse: payload,
+        APIErrorReponse: payload,
       };
 
     case ERROR_MESSAGE:

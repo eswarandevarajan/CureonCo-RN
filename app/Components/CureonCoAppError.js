@@ -1,38 +1,40 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import NavigationService from '../Navigation/NavigationService';
 import ScreenNames from '../Navigation/ScreenNames';
 import {colors, fonts} from '../themes/themes';
 import Button from './Button';
-import {
-  setAPIError,
-  setErrorMessage,
-} from '../Redux/Actions/ErrorAction';
+import {setAPIError, setErrorMessage} from '../Redux/Actions/ErrorAction';
 import images from '../assets/images';
 import {setUserLoggedOut} from '../Redux/Actions/AuthAction';
 import {scaledHeight, scaledWidth} from '../utils/Resolution';
 import {CureOncoImage} from './CureOncoAtoms';
 import PopUpModalComponent from './PopUpModalComponent';
 import Icon from './Icon';
+import {USER_INFO} from '../Constants/CommonConstants';
+import AppUtils from '../utils/AppUtils';
 
 const CureonCoAppError = () => {
   const dispatch = useDispatch();
 
   const errorReducer = useSelector(state => state.ErrorReducer);
-  const {errors, errorReponse} = errorReducer;
+  const {errors, APIErrorReponse} = errorReducer;
+  const {status} = APIErrorReponse ?? {};
 
-  useEffect(() => {
-    if (errorReponse === 'tokenNotValid') {
-      dispatch(setUserLoggedOut());
-      NavigationService.navigate(ScreenNames.stackNavigation.Login);
-    }
-  }, [dispatch, errorReponse]);
+  const tokenExpired = async () => {
+    await AppUtils.removeItemFromSecuredStorage(USER_INFO);
+    dispatch(setUserLoggedOut());
+    dispatch(setAPIError(undefined));
+    NavigationService.navigate(ScreenNames.stackNavigation.Login);
+  };
 
-  if (
-    errorReponse === 'defaultErrorMessage' ||
-    errorReponse === 'authPagesError'
-  ) {
+  const serverError = () => {
+    dispatch(setAPIError(undefined));
+    NavigationService.navigate(ScreenNames.tabNavigation.HomeMenu);
+  };
+
+  if (status >= 401) {
     return (
       <View style={styles.container}>
         <CureOncoImage
@@ -49,12 +51,7 @@ const CureonCoAppError = () => {
           style={{marginTop: scaledHeight(80)}}
           btnLabel={'Restart'}
           btnPress={() => {
-            dispatch(setAPIError(undefined));
-            errorReponse === 'authPagesError'
-              ? NavigationService.navigate(ScreenNames.tabNavigation.Login)
-              : NavigationService.navigate(
-                  ScreenNames.stackNavigation.HomeMenu,
-                );
+            status === 401 ? tokenExpired() : serverError();
           }}
         />
       </View>

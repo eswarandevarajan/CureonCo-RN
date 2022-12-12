@@ -1,19 +1,8 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  TextInput,
-  Dimensions,
-  Text,
-  Image,
-} from 'react-native';
+import {StyleSheet, View, TextInput, Text, Image} from 'react-native';
 import {colors, fonts} from '../themes/themes';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {scaledHeight, scaledWidth} from '../utils/Resolution';
-import appStyles from '../assets/Styles/AppStyles';
 import Icon from './Icon';
-
-const {width} = Dimensions.get('window');
 
 const Input = props => {
   const {
@@ -29,7 +18,6 @@ const Input = props => {
     number,
     secureTextEntry,
     maxLength,
-    isMandatory,
     mobile = false,
     mobileCode,
     name,
@@ -54,7 +42,7 @@ const Input = props => {
 
   return (
     <View style={[styles.container, containerStyle, error && styles.error]}>
-      <View style={{flexDirection: 'row'}}>
+      <View style={styles.inputView}>
         {icon && (
           <Icon
             name={name}
@@ -144,6 +132,9 @@ const styles = StyleSheet.create({
   },
   imageStyle: {
     alignSelf: 'center',
+  },
+  inputView: {
+    flexDirection: 'row',
   },
 });
 

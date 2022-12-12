@@ -6,13 +6,6 @@ import {scaledHeight, scaledWidth} from '../../../utils/Resolution';
 const {width, height} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.white,
-  },
-  scrollView: {
-    marginHorizontal: 0,
-  },
   linkBtn: {
     paddingBottom: scaledHeight(15),
     paddingLeft: scaledWidth(15),
@@ -47,10 +40,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginRight: scaledWidth(15),
   },
-  webView: {
-    position: 'relative',
-    height: '100%',
-  },
   titleTxt: {
     fontFamily: fonts.bold,
     color: colors.white,
@@ -61,12 +50,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     fontSize: 18,
     textAlign: 'center',
-  },
-  listViewStyle: {
-    marginTop: scaledHeight(80),
-    height: height / 1.12,
-    position: 'absolute',
-    width: '100%',
   },
   listStyle: {
     marginTop: scaledHeight(20),

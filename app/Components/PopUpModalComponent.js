@@ -1,6 +1,5 @@
 import React from 'react';
 import {View, StyleSheet, Animated, Modal} from 'react-native';
-import {scaledHeight, scaledWidth} from '../utils/Resolution';
 
 const PopUpModalComponent = props => {
   const {visibility, children, showPopUpModal} = props;
@@ -30,7 +29,6 @@ const styles = StyleSheet.create({
   modalAnimatedView: {
     backgroundColor: 'white',
     paddingTop: 12,
-    // height: scaledHeight(200),
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
   },

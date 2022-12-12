@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {StyleSheet, Dimensions, TouchableOpacity, Text} from 'react-native';
 import {colors, fonts} from '../themes/themes';
 import {scaledHeight, scaledWidth} from '../utils/Resolution';

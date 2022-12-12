@@ -104,7 +104,6 @@ const EditProfileScreen = props => {
   };
 
   const updateProfile = async data => {
-    console.log(data);
     const {name, email, phone, country, state} = data;
     const profile = {name, email, phone, country, state};
     dispatch(UPDATEUSERPROFILE(profile, false));
@@ -130,7 +129,6 @@ const EditProfileScreen = props => {
   const UploadProfilePic = async chooseOption => {
     setShowPhotoOption(false);
     const data = await ImagePickerComponent.photos(chooseOption);
-    console.log(data);
     const {formData, pickedImage} = data ?? {};
     dispatch(UPDATEUSERIMAGE(formData)).then(response => {
       if (response) {

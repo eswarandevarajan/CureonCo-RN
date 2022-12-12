@@ -1,5 +1,3 @@
-export const ACCESS_TOKEN = 'access_token';
-export const REFRESH_TOKEN = 'refresh_token';
 export const USER_INFO = 'user_info';
 export const FCM_TOKEN = 'fcm_token';
 export const NATIVE = 'Native';

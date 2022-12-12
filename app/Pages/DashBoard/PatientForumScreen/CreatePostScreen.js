@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Dimensions,
@@ -10,20 +10,16 @@ import {
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import NavigationService from '../../../Navigation/NavigationService';
-import FABComponent from '../../../Components/FABComponent';
 import {
   CREATE_NEW_FEED,
-  GET_ALLFEEDS,
   UPLOAD_FEED_IMAGES,
 } from '../../../Service/MenuService';
 import appStyles from '../../../assets/Styles/AppStyles';
 import images from '../../../assets/images';
-import ForumComponent from '../Component/ForumComponent';
 import ScreenNames from '../../../Navigation/ScreenNames';
 import {Icon} from '../../../Components';
 import styles from './Styles';
 import {CureOncoAvatar} from '../../../Components/CureOncoAtoms';
-import PopUpModalComponent from '../../../Components/PopUpModalComponent';
 import ImagePickerComponent from '../../../Components/ImagePickerComponent';
 import {CAMERA, GALLERY} from '../../../Config/config';
 
@@ -36,14 +32,12 @@ const CreatePostScreen = props => {
 
   const dispatch = useDispatch();
 
-  const feeds = useSelector(state => state.MenuReducer?.feeds);
   const userProfile = useSelector(state => state.ProfileReducer?.userProfile);
   const {medappprofile = {}} = userProfile ?? {};
   const {user = {}, followers = [], following = []} = medappprofile;
 
   const UploadProfilePic = async chooseOption => {
     const data = await ImagePickerComponent.photos(chooseOption);
-    console.log(data);
     const {formData, pickedImage} = data ?? {};
     setUploadImages(formData);
   };

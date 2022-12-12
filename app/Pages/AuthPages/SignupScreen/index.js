@@ -321,11 +321,11 @@ const SignupScreen = () => {
             </View>
 
             <View style={styles.enabelTouchView}>
-              <Text style={[styles.entrolledTxt, {fontSize: 16}]}>
+              <Text style={[styles.entrolledTxt]}>
                 {Signup_Screen.screen_01.touchID_txt}
               </Text>
               <View style={styles.entrolledView}>
-                <Text style={[styles.textStyle, {fontSize: 16}]}>
+                <Text style={[styles.textStyle]}>
                   {touchSwitch ? 'Yes' : 'No'}
                 </Text>
                 <Switch

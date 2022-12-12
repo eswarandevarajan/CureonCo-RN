@@ -8,7 +8,6 @@ export function setAPIError(response) {
 }
 
 export function setErrorMessage(errorMessage, showError) {
-  console.log(errorMessage);
   return {
     type: ERROR_MESSAGE,
     payload: {errorMessage, showError},

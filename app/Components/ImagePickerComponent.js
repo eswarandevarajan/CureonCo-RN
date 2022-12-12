@@ -95,7 +95,6 @@ const onGalleryPicker = async () => {
     type: [DocumentPicker.types.images],
   })
     .then(images => {
-      console.log(images);
       return images;
     })
     .catch(err => {
@@ -108,7 +107,6 @@ const onGalleryPicker = async () => {
   Object.keys(pickedImage).map(item => {
     formData.append('file', pickedImage[item]);
   });
-  console.log(pickedImage);
   return {formData, pickedImage};
 };
 
@@ -117,7 +115,6 @@ const onCameraPicker = async () => {
     mediaType: 'photo',
   })
     .then(image => {
-      console.log('image', image);
       //   const response = image.map((res, index) => {
       // RNFS.readFile(res.uri, 'base64').then(res => {
       //   setVisiblity(false, false);

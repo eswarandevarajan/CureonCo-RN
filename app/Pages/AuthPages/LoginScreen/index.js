@@ -13,7 +13,7 @@ import {ErrorTxts, Login_Screen} from '../../../Constants/TextConstants';
 import * as yup from 'yup';
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import ReactNativeBiometrics, {BiometryTypes} from 'react-native-biometrics';
+import ReactNativeBiometrics from 'react-native-biometrics';
 import appStyles from '../../../assets/Styles/AppStyles';
 import {Button, Icon, Input} from '../../../Components';
 import ScreenNames from '../../../Navigation/ScreenNames';
@@ -31,7 +31,7 @@ import {FACEBOOK, NATIVE, TWITTER} from '../../../Constants/CommonConstants';
 import AppUtils from '../../../utils/AppUtils';
 import {fonts} from '../../../themes/themes';
 import {useDispatch} from 'react-redux';
-import {LOGIN, SOCIAL_LOGIN} from '../../../Service/AuthService';
+import {LOGIN} from '../../../Service/AuthService';
 import {isSensorAvailable} from '../../../utils/Utils';
 import {
   AccessToken,
@@ -104,10 +104,6 @@ const LoginScreen = () => {
       registrationType: NATIVE,
       fcmToken: fcm_Token,
     };
-    // reset({
-    //   email: '',
-    //   password: '',
-    // });
     dispatch(LOGIN(loginData));
   };
 
@@ -132,7 +128,6 @@ const LoginScreen = () => {
 
   const gmailLogin = async () => {
     const loginData = await AppUtils.googleSign();
-    console.log(loginData);
     dispatch(LOGIN(loginData));
   };
 
@@ -206,7 +201,6 @@ const LoginScreen = () => {
         }
       })
       .catch(error => {
-        alert(error);
         console.log('error===>', error);
       });
   };

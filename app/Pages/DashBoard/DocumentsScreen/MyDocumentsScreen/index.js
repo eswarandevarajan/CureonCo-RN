@@ -1,10 +1,9 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   View,
   TouchableOpacity,
   Text,
   SafeAreaView,
-  Animated,
   ImageBackground,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
@@ -12,7 +11,6 @@ import {Icon} from '../../../../Components';
 import NavigationService from '../../../../Navigation/NavigationService';
 import appStyles from '../../../../assets/Styles/AppStyles';
 import ScreenNames from '../../../../Navigation/ScreenNames';
-import {FOLLOWERS, FOLLOWING} from '../../../../Constants/CommonConstants';
 import PagerView from 'react-native-pager-view';
 import styles from './Styles';
 import images from '../../../../assets/images';
@@ -21,11 +19,8 @@ import {
   CureOncoFlatList,
   CureOncoImage,
 } from '../../../../Components/CureOncoAtoms';
-import {colors} from '../../../../themes/themes';
-import {useEffect} from 'react';
 import {GET_FOLDER_NAMES} from '../../../../Service/ProfileService';
 import QRCodeScreen from '../QRCodeScreen';
-import Images from '../../../../assets/images';
 import ShareDocumentsScreen from '../ShareDocumentsScreen';
 import {convertCaptilize} from '../../../../utils/Utils';
 
@@ -33,13 +28,13 @@ const MyDocumentsScreen = props => {
   const dispatch = useDispatch();
   const ref = useRef(PagerView);
 
+  const folderNames = useSelector(state => state.ProfileReducer?.folderNames);
+
   const [isMyDoc, setIsMyDoc] = useState(true);
   const [isShareDoc, setIsShareDoc] = useState(false);
   const [isQRCode, setIsQRCode] = useState(false);
   const [changeVertical, setChangeVertical] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
-
-  const folderNames = useSelector(state => state.ProfileReducer?.folderNames);
 
   useEffect(() => {
     dispatch(GET_FOLDER_NAMES());
@@ -56,10 +51,14 @@ const MyDocumentsScreen = props => {
     setIsFetching(true);
   };
 
-  const renderFolder = ({item, index}) => {
+  const renderFolder = ({item}) => {
     return (
       <TouchableOpacity
-        style={changeVertical ? styles.folderVerticalIcon : styles.folderIcon}
+        style={
+          changeVertical
+            ? styles.folderVerticalIcon
+            : styles.folderHorizontalIcon
+        }
         onPress={() => {
           NavigationService.navigate(ScreenNames.stackNavigation.Documents, {
             folderID: item._id,
@@ -69,7 +68,9 @@ const MyDocumentsScreen = props => {
         <CureOncoImage style={styles.folderImage} source={images.folderIcon} />
         <Text
           style={
-            changeVertical ? styles.folderVerticalText : styles.folderText
+            changeVertical
+              ? styles.folderVerticalText
+              : styles.folderHorizontalText
           }>
           {convertCaptilize(item.folderName)}
         </Text>
@@ -138,29 +139,29 @@ const MyDocumentsScreen = props => {
         />
         <View style={styles.topView}>
           <TouchableOpacity
-            style={[styles.tabTouch, isMyDoc && styles.selectedTab]}
+            style={[styles.tabTouch, isMyDoc && styles.selectedTabTouch]}
             onPress={() => {
               ref.current.setPage(0);
             }}>
-            <Text style={[styles.tabTxt, isMyDoc && styles.selectedTxt]}>
+            <Text style={[styles.tabTxt, isMyDoc && styles.selectedTabTxt]}>
               My Doc
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.tabTouch, isShareDoc && styles.selectedTab]}
+            style={[styles.tabTouch, isShareDoc && styles.selectedTabTouch]}
             onPress={() => {
               ref.current.setPage(1);
             }}>
-            <Text style={[styles.tabTxt, isShareDoc && styles.selectedTxt]}>
+            <Text style={[styles.tabTxt, isShareDoc && styles.selectedTabTxt]}>
               Shard Doc
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.tabTouch, isQRCode && styles.selectedTab]}
+            style={[styles.tabTouch, isQRCode && styles.selectedTabTouch]}
             onPress={() => {
               ref.current.setPage(2);
             }}>
-            <Text style={[styles.tabTxt, isQRCode && styles.selectedTxt]}>
+            <Text style={[styles.tabTxt, isQRCode && styles.selectedTabTxt]}>
               QR Upload
             </Text>
           </TouchableOpacity>
@@ -172,7 +173,7 @@ const MyDocumentsScreen = props => {
           onPageScroll={onPageScrollChanged}
           ref={ref}>
           <View key="1">
-            <View style={{flex: 1}}>
+            <View style={styles.documentsView}>
               {listChange()}
               <CureOncoFlatList
                 key={changeVertical ? '_' : '#'}

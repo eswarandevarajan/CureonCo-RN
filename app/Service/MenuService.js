@@ -50,20 +50,15 @@ import {setAPIError, setErrorCode} from '../Redux/Actions/ErrorAction';
 
 export const GET_ONCONEWS = () => async dispatch => {
   dispatch(showLoader());
-  await CommonService.GETMETHOD(ONCONEWS.GETONCONEWS)
+  await CommonService.GETMETHOD(ONCONEWS.GETONCONEWS, dispatch)
     .then(response => {
       dispatch(hideLoader());
-      if (response.code == 200) {
+      if (response.code === 200) {
         dispatch(setOncoNews(response.data));
-      } else if (response.status >= 400) {
-        dispatch(setErrorCode(429));
-      } else {
-        ToastMessage.error(response.message);
       }
     })
-    .catch(error => {
+    .catch(() => {
       dispatch(hideLoader());
-      dispatch(setAPIError('defaultErrorMessage'));
     });
 };
 
@@ -158,15 +153,10 @@ export const GET_JOURNALS = () => async dispatch => {
       dispatch(hideLoader());
       if (response.code == 200) {
         dispatch(setAllJounals(response.data));
-      } else if (response.status >= 400) {
-        dispatch(setErrorCode(429));
-      } else {
-        ToastMessage.error(response.message);
       }
     })
-    .catch(error => {
+    .catch(() => {
       dispatch(hideLoader());
-      dispatch(setAPIError('defaultErrorMessage'));
     });
 };
 

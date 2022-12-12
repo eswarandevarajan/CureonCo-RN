@@ -1,21 +1,10 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {
   Text, // Renders text
   View,
-  TouchableOpacity,
-  SafeAreaView,
-  NativeModules,
   StyleSheet,
 } from 'react-native';
-import {
-  Choose_Login_Screen,
-  Login_Screen,
-} from '../../../Constants/TextConstants';
-import appStyles from '../../../assets/Styles/AppStyles';
-import {Button, Icon, Input} from '../../../Components';
-import ScreenNames from '../../../Navigation/ScreenNames';
-import NavigationService from '../../../Navigation/NavigationService';
-import {colors, fonts} from '../../../themes/themes';
+import {fonts} from '../../../themes/themes';
 import {
   convertToDeviceResolution,
   scaledHeight,

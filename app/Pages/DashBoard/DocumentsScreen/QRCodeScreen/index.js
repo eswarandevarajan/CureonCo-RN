@@ -40,7 +40,7 @@ const QRCodeScreen = props => {
         tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor
         sit amet, consectetur adipiscing elit,{' '}
       </Text>
-      {showQRCode && (
+      {/* {showQRCode && (
         <View style={styles.QRCode}>
           <QRCodeScanner
             onRead={onSuccess}
@@ -49,7 +49,7 @@ const QRCodeScreen = props => {
             topContent={<Text style={styles.topContentTxt}>Scan QR Code</Text>}
           />
         </View>
-      )}
+      )} */}
     </View>
   );
 };

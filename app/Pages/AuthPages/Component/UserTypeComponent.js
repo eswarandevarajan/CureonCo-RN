@@ -1,28 +1,13 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  TouchableOpacity,
-  ScrollView,
-  Switch,
-  Text,
-  KeyboardAvoidingView,
-  ImageBackground,
-  SafeAreaView,
-} from 'react-native';
-import {Icon, Button, SelectBox, Input} from '../../../Components';
-import {colors, fonts} from '../../../themes/themes';
+import {View, TouchableOpacity, ScrollView, Switch, Text} from 'react-native';
+import {Button, SelectBox, Input} from '../../../Components';
+import {colors} from '../../../themes/themes';
 import images from '../../../assets/images';
 import styles from '../SignupScreen/Styles';
 import {ErrorTxts, Signup_Screen} from '../../../Constants/TextConstants';
 import CheckBox from '@react-native-community/checkbox';
-import {validationService} from '../../../Components/Validation/service';
 import {useSelector} from 'react-redux';
 import ToastMessage from '../../../Components/ToastMessage';
-import {
-  convertToDeviceResolution,
-  scaledHeight,
-  scaledWidth,
-} from '../../../utils/Resolution';
 import {CureOncoImage} from '../../../Components/CureOncoAtoms';
 import * as yup from 'yup';
 import {useForm} from 'react-hook-form';
@@ -279,8 +264,7 @@ const UserTypeComponent = props => {
           getRegisterRole(registerRole);
         }
       } else if (isUserPhysician) {
-        const {license, specialization, affiliation} =
-          data ?? {};
+        const {license, specialization, affiliation} = data ?? {};
         const registerRole = {
           licenseNumber: license,
           specialization,

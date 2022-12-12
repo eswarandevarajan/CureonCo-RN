@@ -1,27 +1,16 @@
 import React, {useState} from 'react';
-import {View, Dimensions} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import PostImageViewer from '../../../Components/PostImageViewer';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {PostItem} from '../../../Components/PostItem';
-import NavigationService from '../../../Navigation/NavigationService';
-import FABComponent from '../../../Components/FABComponent';
-import styles from './Styles';
-import {
-  GET_ALLFEEDS,
-  GET_POST_COMMENTS,
-  POST_ACTION,
-} from '../../../Service/MenuService';
+import {GET_POST_COMMENTS, POST_ACTION} from '../../../Service/MenuService';
 import {
   CureOncoFlatList,
   CureOncoListSeparator,
 } from '../../../Components/CureOncoAtoms';
-import appStyles from '../../../assets/Styles/AppStyles';
-
-const {height, width} = Dimensions.get('window');
 
 const ForumComponent = props => {
   const {posts, removeHugs, style, onRefreshCall, isRefresh = false} = props;
-  console.log(posts);
   const [commentModal, setCommentModal] = useState(false);
   const [animateModal, setAnimateModal] = useState(false);
   const [showPostImage, setShowPostImage] = useState(false);
@@ -88,5 +77,11 @@ const ForumComponent = props => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  postImage: {
+    flex: 1,
+  },
+});
 
 export default ForumComponent;

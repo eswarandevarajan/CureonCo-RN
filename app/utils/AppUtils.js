@@ -1,16 +1,13 @@
 import EncryptedStorage from 'react-native-encrypted-storage';
-import {
-  ACCESS_TOKEN,
-  FCM_TOKEN,
-  GOOGLE,
-  REFRESH_TOKEN,
-  USER_INFO,
-} from '../Constants/CommonConstants';
+import {FCM_TOKEN, GOOGLE, USER_INFO} from '../Constants/CommonConstants';
 import {Share} from 'react-native';
 import Config from 'react-native-config';
 // import RNFS from 'react-native-fs';
 // import FileViewer from 'react-native-file-viewer';
-import {GoogleSignin, statusCodes} from '@react-native-google-signin/google-signin';
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
 // import ReactNativeBiometrics, {BiometryTypes} from 'react-native-biometrics';
 
 const {GOOGLE_CLIENT_ID} = Config;
@@ -28,9 +25,7 @@ GoogleSignin.configure({
   profileImageSize: 120, // [iOS] The desired height (and width) of the profile image. Defaults to 120px
 });
 
-
 class AppUtils {
-
   static setFCMToken = async fcmToken => {
     await EncryptedStorage.setItem(FCM_TOKEN, JSON.stringify(fcmToken));
   };
@@ -57,7 +52,6 @@ class AppUtils {
 
   static getUserProfile = async () => {
     const userInfo = await EncryptedStorage.getItem(USER_INFO);
-    console.log('accessToken', userInfo);
     if (userInfo !== undefined) {
       return JSON.parse(userInfo);
     }
@@ -96,75 +90,74 @@ class AppUtils {
   //       });
   //   };
 
-    static async googleSign() {
-      try {
-        await GoogleSignin.hasPlayServices();
-        const userInfo = await GoogleSignin.signIn();
-        if (userInfo) {
-          const fcm_Token = await AppUtils.getFCMToken();
-          const loginData = {
-            idToken: userInfo.idToken,
-            registrationType: GOOGLE,
-            fcmToken: fcm_Token,
-          };
-          return loginData;
-        }
-      } catch (error) {
-        console.log(error);
-        if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        } else if (error.code === statusCodes.IN_PROGRESS) {
-        } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        } else {
-        }
+  static async googleSign() {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      if (userInfo) {
+        const fcm_Token = await AppUtils.getFCMToken();
+        const loginData = {
+          idToken: userInfo.idToken,
+          registrationType: GOOGLE,
+          fcmToken: fcm_Token,
+        };
+        return loginData;
+      }
+    } catch (error) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+      } else {
       }
     }
   }
+}
 
-  // export const isSensorAvailable = () => {
-  //   const biometryTypes = rnBiometrics.isSensorAvailable().then(resultObject => {
-  //     const {available, biometryType} = resultObject;
-  //     if (available) {
-  //       const {keysExist} = rnBiometrics.biometricKeysExist();
-  //       if (keysExist) {
-  //         rnBiometrics.deleteKeys();
-  //       }
-  //       if (biometryType === BiometryTypes.TouchID) {
-  //         return {biometryType: 'TouchID', available};
-  //       } else if (biometryType === BiometryTypes.FaceID) {
-  //         return {biometryType: 'FaceID', available};
-  //       } else if (biometryType === BiometryTypes.Biometrics) {
-  //         return {biometryType: 'Finger Print', available};
-  //       } else {
-  //         return '';
-  //       }
-  //     }
-  //   });
-  //   return biometryTypes;
-  // };
+// export const isSensorAvailable = () => {
+//   const biometryTypes = rnBiometrics.isSensorAvailable().then(resultObject => {
+//     const {available, biometryType} = resultObject;
+//     if (available) {
+//       const {keysExist} = rnBiometrics.biometricKeysExist();
+//       if (keysExist) {
+//         rnBiometrics.deleteKeys();
+//       }
+//       if (biometryType === BiometryTypes.TouchID) {
+//         return {biometryType: 'TouchID', available};
+//       } else if (biometryType === BiometryTypes.FaceID) {
+//         return {biometryType: 'FaceID', available};
+//       } else if (biometryType === BiometryTypes.Biometrics) {
+//         return {biometryType: 'Finger Print', available};
+//       } else {
+//         return '';
+//       }
+//     }
+//   });
+//   return biometryTypes;
+// };
 
-  // export const createSignature = () => {
-  //   let epochTimeSeconds = Math.round(new Date().getTime() / 1000).toString();
-  //   let payload = epochTimeSeconds + 'some message';
-  //   rnBiometrics
-  //     .createSignature({
-  //       promptMessage: 'Sign in',
-  //       payload: payload,
-  //     })
-  //     .then(resultObject => {
-  //       const {success, signature} = resultObject;
+// export const createSignature = () => {
+//   let epochTimeSeconds = Math.round(new Date().getTime() / 1000).toString();
+//   let payload = epochTimeSeconds + 'some message';
+//   rnBiometrics
+//     .createSignature({
+//       promptMessage: 'Sign in',
+//       payload: payload,
+//     })
+//     .then(resultObject => {
+//       const {success, signature} = resultObject;
 
-  //       if (success) {
-  //         console.log(signature);
-  //       }
-  //     });
-  // };
+//       if (success) {
+//         console.log(signature);
+//       }
+//     });
+// };
 
-  // export const createKeys = () => {
-  //   const biometryTypes = rnBiometrics.createKeys().then(keys => {
-  //     const {publicKey} = keys;
-  //     console.log(publicKey);
-  //     return publicKey;
-  //   });
-  //   return biometryTypes;
-  // };
+// export const createKeys = () => {
+//   const biometryTypes = rnBiometrics.createKeys().then(keys => {
+//     const {publicKey} = keys;
+//     console.log(publicKey);
+//     return publicKey;
+//   });
+//   return biometryTypes;
+// };
 export default AppUtils;

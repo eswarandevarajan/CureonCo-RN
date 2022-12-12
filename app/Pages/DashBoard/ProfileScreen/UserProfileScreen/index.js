@@ -44,7 +44,6 @@ const UserProfileScreen = props => {
     });
   }, []);
 
-  console.log(userDatas);
 
   const onPageScrollChanged = event => {
     const {position} = event.nativeEvent ?? {};
