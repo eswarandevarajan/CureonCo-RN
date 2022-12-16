@@ -17,6 +17,7 @@ const TargetedTherapyScreen = props => {
   );
   const [targetedTherapys, setTargetedTherapys] = useState([]);
   const [search, setSearch] = useState('');
+  const [isFetching, setIsFetching] = useState(false);
 
   useEffect(() => {
     dispatch(GET_TARGETEDTHERAPY()).then(response => {
@@ -25,6 +26,29 @@ const TargetedTherapyScreen = props => {
       }
     });
   }, [dispatch]);
+
+  useEffect(() => {
+    if (targetedTherapys.length === 0) {
+      setTargetedTherapys(targetedTherapyList);
+    }
+  }, [targetedTherapyList, targetedTherapys]);
+
+  
+
+  useEffect(() => {
+    if (isFetching) {
+      setIsFetching(false);
+      dispatch(GET_TARGETEDTHERAPY()).then(response => {
+        if (response) {
+          setTargetedTherapys(targetedTherapyList);
+        }
+      });
+    }
+  }, [isFetching, dispatch]);
+
+  const onRefreshCall = () => {
+    setIsFetching(true);
+  };
 
   const searchItems = text => {
     const newData = targetedTherapyList.filter(item => {
@@ -58,6 +82,8 @@ const TargetedTherapyScreen = props => {
         <TargetedTherapyComponent
           style={styles.listStyle}
           targetedTherapys={targetedTherapys}
+          onRefreshCall={onRefreshCall}
+          isFetching={isFetching}
         />
       </ImageBackground>
     </SafeAreaView>

@@ -43,7 +43,7 @@ import ModalComponent from '../../../../Components/ModalComponent';
 import {scaledHeight} from '../../../../utils/Resolution';
 import ChooseDoctorScreen from './ChooseDoctorScreen';
 import {convertCaptilize} from '../../../../utils/Utils';
-import { listChange } from './DocumentsUtils';
+import {listChange} from './DocumentsUtils';
 
 const FolderDocumentsScreen = props => {
   const {params} = props.route;
@@ -91,41 +91,6 @@ const FolderDocumentsScreen = props => {
       setUserFilesList(files);
     }
   }, [userFiles]);
-
-  console.log('userFilesList', userFilesList);
-
-  // const listChange = () => {
-  //   return (
-  //     <View style={styles.changeTopView}>
-  //       <View style={styles.changeLeftView}>
-  //         <Text style={styles.changeNameTxt}>Name</Text>
-  //         <Icon
-  //           name={'arrowup'}
-  //           type={'AntDesign'}
-  //           color={'#2B354E'}
-  //           size={20}
-  //         />
-  //       </View>
-  //       <TouchableOpacity onPress={() => setChangeVertical(!changeVertical)}>
-  //         {changeVertical ? (
-  //           <Icon
-  //             name={'view-module'}
-  //             type={'MaterialCommunityIcons'}
-  //             color={'#737B7D'}
-  //             size={30}
-  //           />
-  //         ) : (
-  //           <Icon
-  //             name={'nav-icon-list-a'}
-  //             type={'Fontisto'}
-  //             color={'#737B7D'}
-  //             size={20}
-  //           />
-  //         )}
-  //       </TouchableOpacity>
-  //     </View>
-  //   );
-  // };
 
   const onPress = () => {
     setChangeVertical(!changeVertical);
@@ -212,47 +177,10 @@ const FolderDocumentsScreen = props => {
     setIsChecked(checkedIds);
   };
 
-  const listIcon = fileTypes => {
-    const checkString = fileType => {
-      if (fileTypes.includes(fileType)) {
-        return fileTypes;
-      }
-    };
-    switch (fileTypes) {
-      case checkString('pdf'):
-        return (
-          <Icon
-            name={'file-pdf-box'}
-            type={'MaterialCommunityIcons'}
-            size={20}
-            color={'#DD2025'}
-          />
-        );
-      case checkString('jpeg'):
-      case checkString('jpg'):
-      case checkString('png'):
-        return (
-          <Icon
-            name={'image'}
-            type={'FontAwesome'}
-            size={70}
-            color={colors.bg}
-          />
-        );
-      default:
-        return (
-          <Icon
-            name={'file-text-o'}
-            type={'FontAwesome'}
-            size={70}
-            color={colors.bg}
-          />
-        );
-    }
-  };
-
   const renderFiles = ({item}) => {
-    if (item?.category?._id === folderID) {
+    const {category = {}, _id = '', fileName = ''} = item ?? {};
+    const {_id: categrotyID} = category;
+    if (categrotyID === folderID) {
       if (changeVertical) {
         return (
           <TouchableOpacity
@@ -260,14 +188,13 @@ const FolderDocumentsScreen = props => {
             onPress={() => onCheckChange(item)}>
             {showFileSelected && (
               <CheckBox
-                value={isChecked.includes(item._id)}
+                value={isChecked.includes(_id)}
                 onValueChange={() => onCheckChange(item)}
                 style={styles.verticalCheckBox}
                 tintColors={{false: colors.black, true: '#004E8B'}}
                 boxType={'circle'}
               />
             )}
-            {/* {listIcon(item?.fileType)} */}
             <Icon
               name={'file-pdf-box'}
               type={'MaterialCommunityIcons'}
@@ -276,7 +203,7 @@ const FolderDocumentsScreen = props => {
               style={styles.itemVerticalIcon}
             />
             <Text style={styles.fileVerticalText} numberOfLines={1}>
-              {convertCaptilize(item.fileName)}
+              {convertCaptilize(fileName)}
             </Text>
             <TouchableOpacity onPress={() => setShowChooseDoctor(true)}>
               <Icon
@@ -300,14 +227,13 @@ const FolderDocumentsScreen = props => {
           />
           {showFileSelected && (
             <CheckBox
-              value={isChecked.includes(item._id)}
+              value={isChecked.includes(_id)}
               onValueChange={() => onCheckChange(item)}
               style={styles.horizontalCheckBox}
               tintColors={{false: colors.black, true: '#004E8B'}}
               boxType={'circle'}
             />
           )}
-          {/* {listIcon(item?.fileType)} */}
           <View style={styles.horizontalBottomView}>
             <Icon
               name={'file-pdf-box'}
@@ -317,7 +243,7 @@ const FolderDocumentsScreen = props => {
               style={styles.itemHorizontalIcon}
             />
             <Text style={styles.fileHorizontalText} numberOfLines={1}>
-              {convertCaptilize(item.fileName)}
+              {convertCaptilize(fileName)}
             </Text>
             <TouchableOpacity
               onPress={() => {

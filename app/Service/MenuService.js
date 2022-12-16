@@ -285,17 +285,12 @@ export const GET_SYMPTOMLIST = () => async dispatch => {
   await CommonService.GETMETHOD(SYMPTOMS.GETSYMPTOMLIST)
     .then(response => {
       dispatch(hideLoader());
-      if (response.code == 201) {
+      if (response.code === 201) {
         dispatch(setSymptomList(response.data));
-      } else if (response.status >= 400) {
-        dispatch(setErrorCode(429));
-      } else {
-        ToastMessage.error(response.message);
       }
     })
-    .catch(error => {
+    .catch(() => {
       dispatch(hideLoader());
-      dispatch(setAPIError('defaultErrorMessage'));
     });
 };
 

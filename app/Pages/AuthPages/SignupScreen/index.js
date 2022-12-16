@@ -142,7 +142,7 @@ const SignupScreen = () => {
     } = data ?? {};
     if (password === confirmpassword) {
       let registerData = {
-        name: firstName,
+        firstName,
         lastName,
         email,
         country,

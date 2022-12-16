@@ -1,21 +1,15 @@
-import React, {useState, useRef} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   TouchableOpacity,
   Text,
   SafeAreaView,
-  Animated,
   ImageBackground,
-  Modal,
   TextInput,
 } from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {Button, Icon} from '../../../../Components';
-import NavigationService from '../../../../Navigation/NavigationService';
 import appStyles from '../../../../assets/Styles/AppStyles';
-import ScreenNames from '../../../../Navigation/ScreenNames';
-import {FOLLOWERS, FOLLOWING} from '../../../../Constants/CommonConstants';
-import PagerView from 'react-native-pager-view';
 import styles from './Styles';
 import images from '../../../../assets/images';
 import {BackHeaderComponent} from '../../../../Components/HeaderComponent';
@@ -25,64 +19,10 @@ import {
   CureOncoImage,
   CureOncoListSeparator,
 } from '../../../../Components/CureOncoAtoms';
-import {colors} from '../../../../themes/themes';
-import {useEffect} from 'react';
-import {
-  GET_DOCTORS,
-  GET_FOLDER_NAMES,
-  GET_USER_FILES,
-  REMOVE_SHARED_DOCUMENT,
-  UPLOAD_FILES,
-} from '../../../../Service/ProfileService';
-import QRCodeScreen from '../QRCodeScreen';
-import Images from '../../../../assets/images';
-import FABComponent from '../../../../Components/FABComponent';
+import {REMOVE_SHARED_DOCUMENT} from '../../../../Service/ProfileService';
 import PopUpModalComponent from '../../../../Components/PopUpModalComponent';
-import CheckBox from '@react-native-community/checkbox';
-import ImagePickerComponent from '../../../../Components/ImagePickerComponent';
-import {CAMERA, DOCUMENT} from '../../../../Config/config';
-import {DOCUMENTS} from '../../../../Config/API_URL';
-import ModalComponent from '../../../../Components/ModalComponent';
-import {scaledHeight} from '../../../../utils/Resolution';
 import {convertCaptilize} from '../../../../utils/Utils';
-
-const fileNames = [
-  {
-    category: {
-      _id: '62611b772909780704d3cc23',
-    },
-    _id: '62611b772909780704d3cd23',
-    fileName: 'Surgen Note',
-  },
-  {
-    category: {
-      _id: '62611b772909780704d3cc23',
-    },
-    _id: '62611b772909780704d3md23',
-    fileName: 'Surgen Note',
-  },
-  {
-    category: {
-      _id: '62611b772909780704d3cc23',
-    },
-    _id: '62611b772909780704d3vd23',
-    fileName: 'Surgen Note',
-  },
-  {
-    category: {
-      _id: '62611b772909780704d3cc23',
-    },
-    _id: '62611b772909780704d3rd23',
-    fileName: 'Surgen Note',
-  },
-  {
-    category: {
-      _id: '62611b772909780704d3cc23',
-    },
-    _id: '62611b772909780704d3wd23',
-    fileName: 'Surgen Note',
-  },
-];
+import {listChange} from '../MyDocumentsScreen/DocumentsUtils';
 
 const SharedDocumentsScreen = props => {
   const {ShowSharedDocument, selectedDoctor} = props;
@@ -92,7 +32,7 @@ const SharedDocumentsScreen = props => {
   const [changeVertical, setChangeVertical] = useState(true);
   const [showRemoveFiles, setShowRemoveFiles] = useState(false);
 
-  const renderFiles = ({item, index}) => {
+  const renderFiles = ({item}) => {
     if (changeVertical) {
       return (
         <TouchableOpacity style={styles.fileVerticalIcon}>
@@ -128,9 +68,8 @@ const SharedDocumentsScreen = props => {
       );
     }
     return (
-      <TouchableOpacity style={styles.fileIcon}>
+      <TouchableOpacity style={styles.fileHorizontalIcon}>
         <CureOncoImage style={styles.sampleImage} source={images.sampleImage} />
-        {/* {listIcon(item?.fileType)} */}
         <View style={styles.bottomView}>
           <Icon
             name={'file-pdf-box'}
@@ -142,55 +81,25 @@ const SharedDocumentsScreen = props => {
           <Text style={styles.fileText} numberOfLines={1}>
             {convertCaptilize(item.fileName)}
           </Text>
-          <TouchableOpacity>
-            <Icon
-              name={'delete'}
-              type={'AntDesign'}
-              color={'#737B7D'}
-              size={20}
-              style={styles.verticalShareIcon}
-            />
-          </TouchableOpacity>
         </View>
       </TouchableOpacity>
     );
   };
 
-  const listChange = () => {
-    return (
-      <View style={styles.changeTopView}>
-        <View style={styles.changeLeftView}>
-          <Text style={styles.changeNameTxt}>Name</Text>
-          <Icon
-            name={'arrowup'}
-            type={'AntDesign'}
-            color={'#2B354E'}
-            size={20}
-          />
-        </View>
-        <TouchableOpacity onPress={() => setChangeVertical(!changeVertical)}>
-          {changeVertical ? (
-            <Icon
-              name={'view-module'}
-              type={'MaterialCommunityIcons'}
-              color={'#737B7D'}
-              size={30}
-            />
-          ) : (
-            <Icon
-              name={'nav-icon-list-a'}
-              type={'Fontisto'}
-              color={'#737B7D'}
-              size={20}
-            />
-          )}
-        </TouchableOpacity>
-      </View>
-    );
+  const onPress = () => {
+    setChangeVertical(!changeVertical);
   };
 
   const showPopUpModal = value => {
     setShowRemoveFiles(value);
+  };
+  const filesListStyles = () => {
+    if (changeVertical) {
+      return filesShared.length === 0
+        ? [styles.fileVerticalList, {borderWidth: 0}]
+        : styles.fileVerticalList;
+    }
+    return styles.fileHorizontalList;
   };
 
   return (
@@ -210,15 +119,15 @@ const SharedDocumentsScreen = props => {
             onChangeText={text => setSearch(text)}
           />
         </View>
-        {listChange()}
+        {listChange(changeVertical, onPress)}
         <View>
           <CureOncoFlatList
             key={changeVertical ? '_' : '#'}
             data={filesShared}
             numColumns={changeVertical ? 1 : 2}
             renderItem={renderFiles}
-            keyExtractor={(item, idx) => item._id.toString()}
-            style={changeVertical ? styles.fileVerticalList : styles.fileList}
+            keyExtractor={item => item._id.toString()}
+            style={filesListStyles()}
             ItemSeparatorComponent={changeVertical && <CureOncoListSeparator />}
             ListEmptyComponent={
               <CureOncoEmptyComponent text={'No Shared Files'} />

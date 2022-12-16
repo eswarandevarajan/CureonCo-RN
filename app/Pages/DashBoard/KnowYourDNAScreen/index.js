@@ -43,6 +43,12 @@ const KnowYourDNAScreen = () => {
   }, [dispatch]);
 
   useEffect(() => {
+    if (DNAsLink?.length === 0) {
+      setDNAsLink(DNALinks);
+    }
+  }, [DNALinks, DNAsLink]);
+
+  useEffect(() => {
     if (isFetching) {
       setIsFetching(false);
       dispatch(GET_KNOWYOURDNA()).then(response => {

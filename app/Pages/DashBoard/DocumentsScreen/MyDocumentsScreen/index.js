@@ -23,6 +23,7 @@ import {GET_FOLDER_NAMES} from '../../../../Service/ProfileService';
 import QRCodeScreen from '../QRCodeScreen';
 import ShareDocumentsScreen from '../ShareDocumentsScreen';
 import {convertCaptilize} from '../../../../utils/Utils';
+import {listChange} from './DocumentsUtils';
 
 const MyDocumentsScreen = props => {
   const dispatch = useDispatch();
@@ -52,6 +53,7 @@ const MyDocumentsScreen = props => {
   };
 
   const renderFolder = ({item}) => {
+    const {_id = '', folderName = ''} = item ?? {};
     return (
       <TouchableOpacity
         style={
@@ -61,8 +63,8 @@ const MyDocumentsScreen = props => {
         }
         onPress={() => {
           NavigationService.navigate(ScreenNames.stackNavigation.Documents, {
-            folderID: item._id,
-            folderName: item.folderName,
+            folderID: _id,
+            folderName: folderName,
           });
         }}>
         <CureOncoImage style={styles.folderImage} source={images.folderIcon} />
@@ -72,43 +74,14 @@ const MyDocumentsScreen = props => {
               ? styles.folderVerticalText
               : styles.folderHorizontalText
           }>
-          {convertCaptilize(item.folderName)}
+          {convertCaptilize(folderName)}
         </Text>
       </TouchableOpacity>
     );
   };
 
-  const listChange = () => {
-    return (
-      <View style={styles.changeTopView}>
-        <View style={styles.changeLeftView}>
-          <Text style={styles.changeNameTxt}>Name</Text>
-          <Icon
-            name={'arrowup'}
-            type={'AntDesign'}
-            color={'#2B354E'}
-            size={20}
-          />
-        </View>
-        <TouchableOpacity onPress={() => setChangeVertical(!changeVertical)}>
-          {changeVertical ? (
-            <Icon
-              name={'view-module'}
-              type={'MaterialCommunityIcons'}
-              color={'#737B7D'}
-              size={30}
-            />
-          ) : (
-            <Icon
-              name={'nav-icon-list-a'}
-              type={'Fontisto'}
-              color={'#737B7D'}
-              size={20}
-            />
-          )}
-        </TouchableOpacity>
-      </View>
-    );
+  const onPress = () => {
+    setChangeVertical(!changeVertical);
   };
 
   const onPageScrollChanged = event => {
@@ -174,7 +147,7 @@ const MyDocumentsScreen = props => {
           ref={ref}>
           <View key="1">
             <View style={styles.documentsView}>
-              {listChange()}
+              {listChange(changeVertical, onPress)}
               <CureOncoFlatList
                 key={changeVertical ? '_' : '#'}
                 data={folderNames}

@@ -43,6 +43,7 @@ import FolderDocumentsScreen from '../Pages/DashBoard/DocumentsScreen/MyDocument
 import PatientForumScreen from '../Pages/DashBoard/PatientForumScreen';
 import CreatePostScreen from '../Pages/DashBoard/PatientForumScreen/CreatePostScreen';
 import TargetedTherapyScreen from '../Pages/DashBoard/TargetedTherapyScreen';
+import SymptomsLogScreen from '../Pages/DashBoard/SymptomsLogScreen';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -159,6 +160,11 @@ const HomeScreen = () => {
       <Stack.Screen
         name={ScreenNames.stackNavigation.CreatePost}
         component={CreatePostScreen}
+        options={{headerShown: false}}
+      />
+       <Stack.Screen
+        name={ScreenNames.stackNavigation.SymptomsLog}
+        component={SymptomsLogScreen}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

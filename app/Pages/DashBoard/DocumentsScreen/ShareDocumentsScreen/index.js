@@ -19,7 +19,7 @@ import SharedDocumentsScreen from './SharedDocumentsScreen';
 
 const ShareDocumentsScreen = props => {
   const {ShowChooseDoctor} = props;
-  
+
   const dispatch = useDispatch();
   const userSharedFiles = useSelector(
     state => state.ProfileReducer?.userSharedFiles,
@@ -40,7 +40,7 @@ const ShareDocumentsScreen = props => {
     }
   }, [isFetching, dispatch]);
 
-  const renderDoctors = ({item, index}) => {
+  const renderDoctors = ({item}) => {
     const {password, filesShared = [], to = {}, createdOn} = item ?? {};
     return (
       <TouchableOpacity
@@ -59,7 +59,7 @@ const ShareDocumentsScreen = props => {
           <Text style={styles.doctorSpeTxt} numberOfLines={1}>
             {to?.type}
           </Text>
-          <View style={{flexDirection: 'row'}}>
+          <View style={styles.doctorVisitView}>
             <Text style={styles.doctorVisitDateTxt} numberOfLines={1}>
               {TimeFormat.formatToDay(item?.createdOn)}
             </Text>
@@ -99,7 +99,7 @@ const ShareDocumentsScreen = props => {
         data={userSharedFiles}
         renderItem={renderDoctors}
         keyExtractor={(item, idx) => item?._id?.toString()}
-        style={[styles.fileVerticalList, {marginTop: 30, borderWidth: 1}]}
+        style={[styles.fileVerticalList, styles.shareDocList]}
         ItemSeparatorComponent={<CureOncoListSeparator />}
         initialNumToRender={10}
         onRefresh={onRefreshCall}

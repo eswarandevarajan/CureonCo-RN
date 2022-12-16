@@ -25,10 +25,7 @@ let listColors = [
 let listTxtColors = ['#ECCC68', '#FF7F50', '#FF6B81'];
 
 const TargetedTherapyComponent = props => {
-  const {targetedTherapys, style} = props;
-  const dispatch = useDispatch();
-
-  const [isFetching, setIsFetching] = useState(false);
+  const {targetedTherapys, style, onRefreshCall, isFetching} = props;
 
   const renderItem = ({item, index}) => {
     const {target = '', cancerType = '', drug = ''} = item ?? {};
@@ -61,19 +58,13 @@ const TargetedTherapyComponent = props => {
     );
   };
 
-  const onRefresh = () => {
-    setIsFetching(true, () => {
-      dispatch(GET_TARGETEDTHERAPY());
-    });
-  };
-
   return (
     <View style={style}>
       <CureOncoFlatList
         data={targetedTherapys}
         renderItem={renderItem}
         keyExtractor={({_id}) => _id?.toString()}
-        onRefresh={onRefresh}
+        onRefresh={onRefreshCall}
         refreshing={isFetching}
         ItemSeparatorComponent={<CureOncoListSeparator />}
       />

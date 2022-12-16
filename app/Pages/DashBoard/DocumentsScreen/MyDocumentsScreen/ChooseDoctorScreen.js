@@ -14,6 +14,7 @@ import styles from './Styles';
 import images from '../../../../assets/images';
 import {BackHeaderComponent} from '../../../../Components/HeaderComponent';
 import {
+  CureOncoAvatar,
   CureOncoFlatList,
   CureOncoListSeparator,
 } from '../../../../Components/CureOncoAtoms';
@@ -26,10 +27,22 @@ const ChooseDoctorScreen = props => {
   const doctors = useSelector(state => state.ProfileReducer?.doctors);
 
   const [search, setSearch] = useState('');
+  const [isFetching, setIsFetching] = useState(false);
 
   useEffect(() => {
     dispatch(GET_DOCTORS());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (isFetching) {
+      setIsFetching(false);
+      dispatch(GET_DOCTORS());
+    }
+  }, [isFetching, dispatch]);
+
+  const onRefreshCall = () => {
+    setIsFetching(true);
+  };
 
   const renderDoctors = ({item}) => {
     const {user = {}, specialization = []} = item ?? {};
@@ -47,34 +60,20 @@ const ChooseDoctorScreen = props => {
             }
           });
         }}>
-        <View>
-          <Icon
-            name={'file-pdf-box'}
-            type={'MaterialCommunityIcons'}
-            size={70}
-            color={'#DD2025'}
-            style={styles.itemVerticalIcon}
+        <View style={styles.doctorIconView}>
+          <CureOncoAvatar
+            user={user}
+            size={50}
+            styles={appStyles.profileIcon}
           />
         </View>
-        <View>
+        <View style={styles.doctorVisitView}>
           <Text style={styles.doctorNameTxt} numberOfLines={1}>
             Dr. {user?.name}
           </Text>
           <Text style={styles.doctorSpeTxt} numberOfLines={1}>
-            {specialization[0]?.title}
+            {specialization[0]?.title} Specialist
           </Text>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={styles.doctorVisitDateTxt} numberOfLines={1}>
-              {item.date}
-            </Text>
-            <Text style={styles.doctorVisitDateTxt} numberOfLines={1}>
-              {' '}
-              .{' '}
-            </Text>
-            <Text style={styles.doctorVisitDateTxt} numberOfLines={1}>
-              {item.day}
-            </Text>
-          </View>
         </View>
       </TouchableOpacity>
     );
@@ -94,6 +93,7 @@ const ChooseDoctorScreen = props => {
           <TextInput
             style={styles.inputField}
             value={search}
+            placeholder={'Search'}
             onChangeText={text => setSearch(text)}
           />
         </View>
@@ -104,6 +104,8 @@ const ChooseDoctorScreen = props => {
             keyExtractor={(item, idx) => item?._id?.toString()}
             style={[styles.fileVerticalList, styles.doctorsList]}
             ItemSeparatorComponent={<CureOncoListSeparator />}
+            onRefresh={onRefreshCall}
+            refreshing={isFetching}
           />
         </View>
       </ImageBackground>

@@ -157,7 +157,6 @@ const styles = StyleSheet.create({
     marginBottom: scaledHeight(120),
     marginLeft: scaledWidth(10),
     marginRight: scaledWidth(10),
-    backgroundColor: 'red',
   },
   fileVerticalIcon: {
     flexDirection: 'row',
@@ -254,7 +253,42 @@ const styles = StyleSheet.create({
     marginTop: scaledHeight(10),
   },
   doctorsList: {
+    marginTop: scaledHeight(25),
+  },
+  doctorTouch: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingBottom: scaledHeight(5),
+    paddingTop: scaledHeight(5),
+  },
+  doctorIconView: {
+    marginLeft: scaledWidth(10),
+  },
+  doctorNameView: {
+    flex: 1,
+    marginLeft: scaledWidth(10),
+  },
+  doctorNameTxt: {
+    color: '#004E8B',
+    fontSize: 19,
+    fontFamily: fonts.semi_bold,
+  },
+  doctorSpeTxt: {
+    color: '#3A506B',
+    fontSize: 15,
+    fontFamily: fonts.semi_bold,
+  },
+  doctorVisitView: {
+    marginLeft: scaledWidth(10),
     marginTop: scaledHeight(10),
+    marginBottom: scaledHeight(10),
+    justifyContent: 'center',
+  },
+  doctorVisitDateTxt: {
+    color: '#014E8B',
+    fontSize: 11,
+    fontFamily: fonts.medium,
+    // textAlign: 'center',
   },
 });
 

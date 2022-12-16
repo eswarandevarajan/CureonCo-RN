@@ -162,7 +162,13 @@ const HomeMenuScreen = props => {
             />
             <Text style={styles.menuTxt}>TARGETED THERAPY</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.menuIconTouch}>
+          <TouchableOpacity
+            style={styles.menuIconTouch}
+            onPress={() =>
+              NavigationService.navigate(
+                ScreenNames.stackNavigation.SymptomsLog,
+              )
+            }>
             <CureOncoImage
               style={styles.menuIcon}
               source={images.symptomsLog}

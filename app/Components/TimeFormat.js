@@ -85,7 +85,10 @@ function formatToTime(time) {
   return moment(time).format('hh:mm A');
 }
 
-function formatToDay(date) {
+function formatToDay(date, value) {
+  if (value) {
+    return moment(date).format('DD MMM YYYY, h:mm A');
+  }
   return moment(date).format('MMMM D, YYYY . dddd');
 }
 

@@ -33,7 +33,7 @@ import {
 const INITIAL_STATE = {
   targetedTherapyList: [],
   oncoNewsList: null,
-  DNALinks: null,
+  DNALinks: [],
   showModal: false,
   journalList: [],
   journalFilterList: [],

@@ -24,11 +24,13 @@ import {
   scaledWidth,
 } from '../utils/Resolution';
 import {
+  CureOncoAvatar,
   CureOncoFlatList,
   CureOncoImage,
   ProfileAvatar,
 } from '../Components/CureOncoAtoms';
 import {useDispatch, useSelector} from 'react-redux';
+import appStyles from '../assets/Styles/AppStyles';
 
 const SideBarMenu = props => {
   const {navigation} = props;
@@ -152,13 +154,12 @@ const SideBarMenu = props => {
           <Icon name={'close'} type={'AntDesign'} size={25} color={'#2B354E'} />
         </TouchableOpacity>
         <View style={styles.profileView}>
-          {/* <ProfileAvatar user={user} size={45} /> */}
-          <Icon
-            name={'person-circle-outline'}
-            type={'Ionicons'}
-            size={60}
-            color={'#2B354E'}
+          <CureOncoAvatar
+            user={user}
+            size={50}
+            styles={appStyles.profileIcon}
           />
+          {/* <ProfileAvatar user={user} size={45} /> */}
           <View>
             <Text style={styles.nameTxt}>{user?.name}</Text>
             <Text style={styles.emailTxt}>{user?.email}</Text>
